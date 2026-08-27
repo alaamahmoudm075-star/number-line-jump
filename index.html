@@ -12,366 +12,374 @@
 
 <style>
 
-* {
-    box-sizing: border-box;
-    user-select: none;
+*{
+    box-sizing:border-box;
+    user-select:none;
 }
 
-body {
-    background: linear-gradient(135deg, #ffdee9 0%, #b5fffc 100%);
-    font-family: 'Quicksand', sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    margin: 0;
-    padding: 20px;
-    overflow-x: hidden;
+body{
+    background:linear-gradient(135deg,#ffdee9 0%,#b5fffc 100%);
+    font-family:'Quicksand',sans-serif;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    margin:0;
+    padding:20px;
+    overflow-x:hidden;
 }
 
-.game-container {
-    background: rgba(255,255,255,0.97);
-    border-radius: 30px;
-    padding: 30px;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.12);
-    width: 100%;
-    max-width: 950px;
-    text-align: center;
-    border: 5px solid #ff6b81;
+.game-container{
+    background:rgba(255,255,255,.97);
+    border-radius:30px;
+    padding:30px;
+    box-shadow:0 15px 30px rgba(0,0,0,.15);
+    width:100%;
+    max-width:950px;
+    text-align:center;
+    border:5px solid #ff6b81;
 }
 
-h1 {
-    font-family: 'Fredoka', cursive;
-    color: #ff4757;
-    font-size: 2.5rem;
-    margin: 0 0 8px;
-    text-shadow: 2px 2px #ffccd5;
+h1{
+    font-family:'Fredoka',cursive;
+    color:#ff4757;
+    font-size:2.5rem;
+    margin:0 0 8px;
+    text-shadow:2px 2px #ffccd5;
 }
 
-.subtitle {
-    color: #57606f;
-    font-size: 1.15rem;
-    font-weight: 700;
-    margin: 0 0 28px;
+.subtitle{
+    color:#57606f;
+    font-size:1.15rem;
+    font-weight:700;
+    margin:0 0 28px;
 }
 
-.controls {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    gap: 15px;
-    margin-bottom: 35px;
-    flex-wrap: wrap;
-    background: #f1f2f6;
-    padding: 18px;
-    border-radius: 20px;
+.controls{
+    display:flex;
+    justify-content:center;
+    align-items:flex-end;
+    gap:15px;
+    margin-bottom:35px;
+    flex-wrap:wrap;
+    background:#f1f2f6;
+    padding:18px;
+    border-radius:20px;
 }
 
-.control-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
+.control-group{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
 }
 
-label {
-    font-weight: 700;
-    color: #2f3542;
-    font-size: 0.95rem;
+label{
+    font-weight:700;
+    color:#2f3542;
+    font-size:.95rem;
 }
 
 select,
-input {
-    padding: 9px 13px;
-    border-radius: 12px;
-    border: 2px solid #ced6e0;
-    font-family: 'Quicksand', sans-serif;
-    font-weight: 700;
-    font-size: 1rem;
-    outline: none;
-    background: white;
-    cursor: pointer;
+input{
+    padding:9px 13px;
+    border-radius:12px;
+    border:2px solid #ced6e0;
+    font-family:'Quicksand',sans-serif;
+    font-weight:700;
+    font-size:1rem;
+    outline:none;
+    background:white;
+    cursor:pointer;
 }
 
-input {
-    width: 95px;
-    text-align: center;
+input{
+    width:95px;
+    text-align:center;
 }
 
-.reset-btn {
-    background: #747d8c;
-    color: white;
-    border: none;
-    padding: 9px 18px;
-    border-radius: 12px;
-    font-family: 'Quicksand', sans-serif;
-    font-weight: 700;
-    cursor: pointer;
+.sound-control{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
 }
 
-.number-line-wrapper {
-    position: relative;
-    margin: 100px 25px 55px;
-    padding: 20px 0;
+.sound-btn{
+    background:#5352ed;
+    color:white;
+    border:none;
+    padding:9px 14px;
+    border-radius:12px;
+    font-size:1.1rem;
+    cursor:pointer;
 }
 
-.line {
-    height: 8px;
-    background: #2f3542;
-    border-radius: 5px;
-    width: 100%;
-    position: relative;
+.volume{
+    width:90px;
+    cursor:pointer;
+}
+
+.reset-btn{
+    background:#747d8c;
+    color:white;
+    border:none;
+    padding:9px 18px;
+    border-radius:12px;
+    font-family:'Quicksand',sans-serif;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.number-line-wrapper{
+    position:relative;
+    margin:105px 25px 55px;
+    padding:20px 0;
+}
+
+.line{
+    height:8px;
+    background:#2f3542;
+    border-radius:5px;
+    width:100%;
+    position:relative;
 }
 
 .line::before,
-.line::after {
-    content: '';
-    position: absolute;
-    top: -6px;
-    border: 10px solid transparent;
+.line::after{
+    content:'';
+    position:absolute;
+    top:-6px;
+    border:10px solid transparent;
 }
 
-.line::before {
-    left: -15px;
-    border-right-color: #2f3542;
+.line::before{
+    left:-15px;
+    border-right-color:#2f3542;
 }
 
-.line::after {
-    right: -15px;
-    border-left-color: #2f3542;
+.line::after{
+    right:-15px;
+    border-left-color:#2f3542;
 }
 
-.ticks-container {
-    display: flex;
-    justify-content: space-between;
-    position: absolute;
-    width: 100%;
-    top: -6px;
+.ticks-container{
+    display:flex;
+    justify-content:space-between;
+    position:absolute;
+    width:100%;
+    top:-6px;
 }
 
-.tick-mark {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
+.tick-mark{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    position:relative;
 }
 
-.tick-line {
-    width: 3px;
-    height: 20px;
-    background: #2f3542;
-    border-radius: 2px;
-    transition: all 0.2s;
+.tick-line{
+    width:3px;
+    height:20px;
+    background:#2f3542;
+    border-radius:2px;
+    transition:all .2s;
 }
 
-.tick-number {
-    margin-top: 14px;
-    font-weight: 700;
-    font-size: 1rem;
-    color: #57606f;
-    transition: all 0.2s;
+.tick-number{
+    margin-top:14px;
+    font-weight:700;
+    font-size:1rem;
+    color:#57606f;
+    transition:all .2s;
 }
 
-.tick-mark.active .tick-line {
-    background: #ff4757;
-    width: 5px;
-    height: 25px;
+.tick-mark.active .tick-line{
+    background:#ff4757;
+    width:5px;
+    height:27px;
 }
 
-.tick-mark.active .tick-number {
-    color: #ff4757;
-    font-size: 1.4rem;
-    font-family: 'Fredoka', cursive;
+.tick-mark.active .tick-number{
+    color:#ff4757;
+    font-size:1.4rem;
+    font-family:'Fredoka',cursive;
 }
 
-.frog-token {
-    position: absolute;
-    top: -70px;
-    font-size: 3rem;
-    transition: left 0.5s cubic-bezier(.25,.46,.45,.94);
-    transform: translateX(-50%);
-    z-index: 10;
-    filter: drop-shadow(0 4px 5px rgba(0,0,0,.15));
+.frog-token{
+    position:absolute;
+    top:-72px;
+    font-size:3rem;
+    transition:left .55s cubic-bezier(.25,.46,.45,.94);
+    transform:translateX(-50%);
+    z-index:10;
+    filter:drop-shadow(0 4px 5px rgba(0,0,0,.15));
 }
 
-/* Jump Arrow */
-
-.jump-svg {
-    position: absolute;
-    left: 0;
-    top: -75px;
-    width: 100%;
-    height: 90px;
-    pointer-events: none;
-    overflow: visible;
-    z-index: 5;
+.jump-svg{
+    position:absolute;
+    left:0;
+    top:-78px;
+    width:100%;
+    height:95px;
+    pointer-events:none;
+    overflow:visible;
+    z-index:5;
 }
 
-.jump-path {
-    fill: none;
-    stroke-width: 4;
-    stroke-linecap: round;
-    stroke-dasharray: 7 5;
-    animation: showArc 0.25s ease-out forwards;
+.jump-path{
+    fill:none;
+    stroke-width:4;
+    stroke-linecap:round;
+    stroke-dasharray:8 5;
+    opacity:0;
+    animation:showArc .25s ease-out forwards;
 }
 
-.arrow-head {
-    animation: showArrow 0.2s ease-out forwards;
+.arrow-head{
+    opacity:0;
+    animation:showArrow .2s ease-out .08s forwards;
 }
 
-@keyframes showArc {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+@keyframes showArc{
+    from{opacity:0}
+    to{opacity:1}
 }
 
-@keyframes showArrow {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+@keyframes showArrow{
+    from{opacity:0}
+    to{opacity:1}
 }
 
-/* Buttons */
-
-.action-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
+.action-buttons{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
 }
 
-.btn {
-    border: none;
-    color: white;
-    font-family: 'Fredoka', cursive;
-    font-size: 1.25rem;
-    padding: 14px 28px;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: transform 0.1s;
+.btn{
+    border:none;
+    color:white;
+    font-family:'Fredoka',cursive;
+    font-size:1.25rem;
+    padding:14px 28px;
+    border-radius:25px;
+    cursor:pointer;
+    transition:transform .1s;
 }
 
-.btn:active {
-    transform: translateY(3px);
+.btn:active{
+    transform:translateY(4px);
 }
 
-.jump-btn {
-    background: #1e90ff;
-    box-shadow: 0 5px 0 #1072d6;
+.jump-btn{
+    background:#1e90ff;
+    box-shadow:0 6px 0 #1072d6;
 }
 
-.check-btn {
-    background: #2ed573;
-    box-shadow: 0 5px 0 #26af5f;
+.check-btn{
+    background:#2ed573;
+    box-shadow:0 6px 0 #26af5f;
 }
 
-.reset-main-btn {
-    background: #ff9f43;
-    box-shadow: 0 5px 0 #d37e23;
+.reset-main-btn{
+    background:#ff9f43;
+    box-shadow:0 6px 0 #d37e23;
 }
 
-.btn:disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
+.btn:disabled{
+    opacity:.55;
+    cursor:not-allowed;
 }
 
-/* Feedback */
-
-.feedback {
-    font-family: 'Fredoka', cursive;
-    font-size: 1.35rem;
-    color: #2f3542;
-    min-height: 45px;
-    margin-top: 22px;
-    line-height: 1.4;
+.feedback{
+    font-family:'Fredoka',cursive;
+    font-size:1.35rem;
+    color:#2f3542;
+    min-height:42px;
+    margin-top:22px;
 }
 
-/* Celebration */
-
-.celebration {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    z-index: 999;
-    display: none;
+.celebration{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100vw;
+    height:100vh;
+    pointer-events:none;
+    z-index:999;
+    display:none;
 }
 
-.star {
-    position: absolute;
-    font-size: 2.4rem;
-    animation: flyUp 1.7s ease-out forwards;
+.star{
+    position:absolute;
+    font-size:2.5rem;
+    animation:flyUp 1.7s ease-out forwards;
 }
 
-@keyframes flyUp {
+@keyframes flyUp{
 
-    0% {
-        transform: translateY(100vh) rotate(0deg);
-        opacity: 1;
+    0%{
+        transform:translateY(100vh) rotate(0deg) scale(.7);
+        opacity:1;
     }
 
-    100% {
-        transform: translateY(-10vh) rotate(360deg);
-        opacity: 0;
+    60%{
+        opacity:1;
     }
 
+    100%{
+        transform:translateY(-10vh) rotate(720deg) scale(1.2);
+        opacity:0;
+    }
 }
 
-/* Mobile */
+@media(max-width:600px){
 
-@media(max-width:600px) {
-
-    body {
-        padding: 10px;
+    body{
+        padding:10px;
     }
 
-    .game-container {
-        padding: 18px 12px;
-        border-width: 4px;
+    .game-container{
+        padding:18px 12px;
+        border-width:4px;
     }
 
-    h1 {
-        font-size: 1.8rem;
+    h1{
+        font-size:1.8rem;
     }
 
-    .subtitle {
-        font-size: 0.9rem;
+    .subtitle{
+        font-size:.9rem;
     }
 
-    .controls {
-        gap: 10px;
-        padding: 12px;
+    .controls{
+        gap:10px;
+        padding:12px;
     }
 
-    .number-line-wrapper {
-        margin-left: 8px;
-        margin-right: 8px;
+    .number-line-wrapper{
+        margin-left:5px;
+        margin-right:5px;
     }
 
-    .tick-number {
-        font-size: 0.75rem;
+    .tick-number{
+        font-size:.72rem;
     }
 
-    .tick-mark.active .tick-number {
-        font-size: 1rem;
+    .tick-mark.active .tick-number{
+        font-size:1rem;
     }
 
-    .frog-token {
-        font-size: 2.3rem;
+    .frog-token{
+        font-size:2.3rem;
     }
 
-    .btn {
-        font-size: 1rem;
-        padding: 11px 18px;
+    .btn{
+        font-size:1rem;
+        padding:11px 18px;
     }
 
 }
@@ -386,7 +394,7 @@ input {
     <h1>🐸 Number Line Jump! 🐸</h1>
 
     <p class="subtitle">
-        Set your starting point, choose the direction and jump!
+        Start at a number, choose your direction, then jump one step at a time!
     </p>
 
     <div class="controls">
@@ -421,7 +429,29 @@ input {
             Reset
         </button>
 
+        <div class="sound-control">
+
+            <button
+                id="soundBtn"
+                class="sound-btn"
+                onclick="toggleSound()">
+                🔊
+            </button>
+
+            <input
+                id="volumeControl"
+                class="volume"
+                type="range"
+                min="0"
+                max="1"
+                step="0.05"
+                value="1"
+            >
+
+        </div>
+
     </div>
+
 
     <div class="number-line-wrapper">
 
@@ -447,13 +477,14 @@ input {
 
     </div>
 
+
     <div class="action-buttons">
 
         <button
             id="jumpBtn"
             class="btn jump-btn"
-            onclick="makeOneJump()">
-            Let's Jump! 🐸
+            onclick="startJump()">
+            🐸 Let's Jump! ✨
         </button>
 
         <button
@@ -465,12 +496,14 @@ input {
 
     </div>
 
+
     <div
         id="feedback"
         class="feedback">
     </div>
 
 </div>
+
 
 <div
     id="celebrationZone"
@@ -480,9 +513,9 @@ input {
 
 <script>
 
-/* =====================================================
+/* =========================================================
    GAME SETTINGS
-===================================================== */
+========================================================= */
 
 const minVal = 0;
 const maxVal = 20;
@@ -490,13 +523,22 @@ const maxVal = 20;
 let currentPos = 5;
 let startPos = 5;
 
-let totalSteps = 3;
-let completedSteps = 0;
+let isJumping = false;
+
+let audioCtx = null;
+let masterGain = null;
+let musicGain = null;
+
+let musicStarted = false;
+let soundEnabled = true;
+
+let musicTimer = null;
+let musicStep = 0;
 
 
-/* =====================================================
+/* =========================================================
    ELEMENTS
-===================================================== */
+========================================================= */
 
 const startSelect =
     document.getElementById("startNum");
@@ -525,12 +567,18 @@ const jumpBtn =
 const checkBtn =
     document.getElementById("checkBtn");
 
+const soundBtn =
+    document.getElementById("soundBtn");
 
-/* =====================================================
+const volumeControl =
+    document.getElementById("volumeControl");
+
+
+/* =========================================================
    CREATE START NUMBERS 0 - 20
-===================================================== */
+========================================================= */
 
-for(let i = minVal; i <= maxVal; i++){
+for(let i=minVal;i<=maxVal;i++){
 
     const option =
         document.createElement("option");
@@ -544,22 +592,493 @@ for(let i = minVal; i <= maxVal; i++){
 startSelect.value = startPos;
 
 
-/* =====================================================
-   CREATE NUMBER LINE
-===================================================== */
+/* =========================================================
+   AUDIO SETUP
+========================================================= */
+
+function setupAudio(){
+
+    if(audioCtx) return;
+
+    try{
+
+        const AudioContext =
+            window.AudioContext ||
+            window.webkitAudioContext;
+
+        audioCtx =
+            new AudioContext();
+
+        masterGain =
+            audioCtx.createGain();
+
+        musicGain =
+            audioCtx.createGain();
+
+        masterGain.gain.value = 1;
+        musicGain.gain.value = 0.28;
+
+        musicGain.connect(masterGain);
+        masterGain.connect(audioCtx.destination);
+
+    }catch(e){
+
+        audioCtx = null;
+
+    }
+
+}
+
+
+/* =========================================================
+   START BACKGROUND MUSIC
+========================================================= */
+
+function startBackgroundMusic(){
+
+    if(!soundEnabled) return;
+
+    setupAudio();
+
+    if(!audioCtx || musicStarted) return;
+
+    try{
+
+        if(audioCtx.state === "suspended"){
+            audioCtx.resume();
+        }
+
+        musicStarted = true;
+
+        musicStep = 0;
+
+        playBackgroundNote();
+
+        musicTimer =
+            setInterval(
+                playBackgroundNote,
+                430
+            );
+
+    }catch(e){}
+
+}
+
+
+/* =========================================================
+   BACKGROUND MUSIC NOTES
+   Cheerful children's style
+========================================================= */
+
+function playBackgroundNote(){
+
+    if(!audioCtx || !soundEnabled) return;
+
+    const melody = [
+        523.25,
+        659.25,
+        783.99,
+        659.25,
+        587.33,
+        698.46,
+        880.00,
+        698.46,
+        523.25,
+        659.25,
+        783.99,
+        1046.50
+    ];
+
+    const bass = [
+        261.63,
+        261.63,
+        329.63,
+        293.66
+    ];
+
+    const note =
+        melody[musicStep % melody.length];
+
+    const bassNote =
+        bass[musicStep % bass.length];
+
+    const now =
+        audioCtx.currentTime;
+
+
+    const osc =
+        audioCtx.createOscillator();
+
+    const gain =
+        audioCtx.createGain();
+
+    osc.type = "triangle";
+
+    osc.frequency.setValueAtTime(
+        note,
+        now
+    );
+
+    gain.gain.setValueAtTime(
+        0.0001,
+        now
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.09,
+        now + 0.025
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        now + 0.34
+    );
+
+    osc.connect(gain);
+    gain.connect(musicGain);
+
+    osc.start(now);
+    osc.stop(now + 0.36);
+
+
+    const bassOsc =
+        audioCtx.createOscillator();
+
+    const bassGain =
+        audioCtx.createGain();
+
+    bassOsc.type = "sine";
+
+    bassOsc.frequency.setValueAtTime(
+        bassNote,
+        now
+    );
+
+    bassGain.gain.setValueAtTime(
+        0.0001,
+        now
+    );
+
+    bassGain.gain.exponentialRampToValueAtTime(
+        0.045,
+        now + 0.03
+    );
+
+    bassGain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        now + 0.35
+    );
+
+    bassOsc.connect(bassGain);
+    bassGain.connect(musicGain);
+
+    bassOsc.start(now);
+    bassOsc.stop(now + 0.36);
+
+    musicStep++;
+
+}
+
+
+/* =========================================================
+   MASTER VOLUME
+========================================================= */
+
+volumeControl.oninput = function(){
+
+    if(!masterGain) setupAudio();
+
+    if(masterGain){
+
+        masterGain.gain.value =
+            Number(volumeControl.value);
+
+    }
+
+};
+
+
+/* =========================================================
+   SOUND ON / OFF
+========================================================= */
+
+function toggleSound(){
+
+    setupAudio();
+
+    soundEnabled =
+        !soundEnabled;
+
+    if(soundEnabled){
+
+        soundBtn.textContent = "🔊";
+
+        if(masterGain){
+
+            masterGain.gain.value =
+                Number(volumeControl.value);
+
+        }
+
+        startBackgroundMusic();
+
+    }else{
+
+        soundBtn.textContent = "🔇";
+
+        if(masterGain){
+            masterGain.gain.value = 0;
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   MAKE SOUND
+========================================================= */
+
+function playTone(
+    frequency,
+    duration,
+    type="sine",
+    volume=0.5
+){
+
+    if(!soundEnabled) return;
+
+    setupAudio();
+
+    if(!audioCtx || !masterGain) return;
+
+    try{
+
+        if(audioCtx.state === "suspended"){
+            audioCtx.resume();
+        }
+
+        const osc =
+            audioCtx.createOscillator();
+
+        const gain =
+            audioCtx.createGain();
+
+        osc.type = type;
+
+        osc.frequency.setValueAtTime(
+            frequency,
+            audioCtx.currentTime
+        );
+
+        gain.gain.setValueAtTime(
+            0.0001,
+            audioCtx.currentTime
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            volume,
+            audioCtx.currentTime + 0.015
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.0001,
+            audioCtx.currentTime + duration
+        );
+
+        osc.connect(gain);
+        gain.connect(masterGain);
+
+        osc.start();
+
+        osc.stop(
+            audioCtx.currentTime +
+            duration
+        );
+
+    }catch(e){}
+
+}
+
+
+/* =========================================================
+   JUMP SOUND
+========================================================= */
+
+function jumpSound(){
+
+    if(!soundEnabled) return;
+
+    setupAudio();
+
+    if(!audioCtx) return;
+
+    try{
+
+        const now =
+            audioCtx.currentTime;
+
+
+        /* Main jump sound */
+
+        const osc =
+            audioCtx.createOscillator();
+
+        const gain =
+            audioCtx.createGain();
+
+        osc.type = "triangle";
+
+        osc.frequency.setValueAtTime(
+            220,
+            now
+        );
+
+        osc.frequency.exponentialRampToValueAtTime(
+            620,
+            now + 0.16
+        );
+
+        gain.gain.setValueAtTime(
+            0.0001,
+            now
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.65,
+            now + 0.025
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.0001,
+            now + 0.24
+        );
+
+        osc.connect(gain);
+        gain.connect(masterGain);
+
+        osc.start(now);
+        osc.stop(now + 0.25);
+
+
+        /* Small high note */
+
+        playTone(
+            880,
+            0.12,
+            "sine",
+            0.30
+        );
+
+    }catch(e){}
+
+}
+
+
+/* =========================================================
+   CELEBRATION SOUND
+========================================================= */
+
+function celebrationSound(){
+
+    if(!soundEnabled) return;
+
+    setupAudio();
+
+    if(!audioCtx) return;
+
+    try{
+
+        const notes = [
+            523.25,
+            659.25,
+            783.99,
+            1046.50,
+            1318.51,
+            1567.98
+        ];
+
+        notes.forEach(
+            (frequency,index)=>{
+
+                setTimeout(
+                    ()=>{
+
+                        playTone(
+                            frequency,
+                            0.45,
+                            "sine",
+                            0.75
+                        );
+
+                    },
+                    index * 100
+                );
+
+            }
+        );
+
+
+        /* Extra sparkle sounds */
+
+        for(let i=0;i<8;i++){
+
+            setTimeout(
+                ()=>{
+
+                    const randomNotes = [
+                        1046.50,
+                        1174.66,
+                        1318.51,
+                        1567.98,
+                        1760
+                    ];
+
+                    playTone(
+                        randomNotes[
+                            Math.floor(
+                                Math.random() *
+                                randomNotes.length
+                            )
+                        ],
+                        0.25,
+                        "triangle",
+                        0.45
+                    );
+
+                },
+                250 + i * 90
+            );
+
+        }
+
+    }catch(e){}
+
+}
+
+
+/* =========================================================
+   NUMBER LINE
+========================================================= */
 
 function initBoard(){
 
     ticksContainer.innerHTML = "";
 
-    for(let i = minVal; i <= maxVal; i++){
+    for(
+        let i=minVal;
+        i<=maxVal;
+        i++
+    ){
 
         const tick =
             document.createElement("div");
 
-        tick.className = "tick-mark";
+        tick.className =
+            "tick-mark";
 
-        tick.dataset.value = i;
+        tick.dataset.value =
+            i;
 
         tick.innerHTML =
             '<div class="tick-line"></div>' +
@@ -568,43 +1087,54 @@ function initBoard(){
             '</div>';
 
         ticksContainer.appendChild(tick);
+
     }
 
     positionFrog();
+
 }
 
 
-/* =====================================================
+/* =========================================================
    POSITION FROG
-===================================================== */
+========================================================= */
 
 function positionFrog(){
 
     const percent =
-        ((currentPos - minVal) /
-        (maxVal - minVal)) * 100;
+        ((currentPos-minVal) /
+        (maxVal-minVal)) * 100;
 
     frog.style.left =
         percent + "%";
 
+
     document
         .querySelectorAll(".tick-mark")
-        .forEach(tick => {
+        .forEach(
+            tick=>{
 
-            tick.classList.toggle(
-                "active",
-                Number(tick.dataset.value) === currentPos
-            );
+                tick.classList.toggle(
+                    "active",
+                    Number(tick.dataset.value)
+                    === currentPos
+                );
 
-        });
+            }
+        );
+
 }
 
 
-/* =====================================================
+/* =========================================================
    RESET GAME
-===================================================== */
+========================================================= */
 
 function resetGame(){
+
+    if(isJumping) return;
+
+    startBackgroundMusic();
 
     currentPos =
         Number(startSelect.value);
@@ -612,492 +1142,44 @@ function resetGame(){
     startPos =
         currentPos;
 
-    totalSteps =
-        Math.max(
-            1,
-            Math.min(
-                10,
-                Number(stepsInput.value) || 1
-            )
-        );
-
-    stepsInput.value =
-        totalSteps;
-
-    completedSteps = 0;
-
     jumpSvg.innerHTML = "";
 
     feedback.textContent = "";
 
-    jumpBtn.disabled = false;
-
-    checkBtn.disabled = false;
-
     positionFrog();
+
 }
 
 
-/* =====================================================
-   SOUND SYSTEM
-===================================================== */
-
-/* Background music is intentionally very soft.
-   It starts after the teacher/student interacts
-   with the page because browsers block autoplay.
-*/
-
-let audioContext = null;
-let backgroundStarted = false;
-let backgroundTimer = null;
-
-
-function getAudioContext(){
-
-    if(!audioContext){
-
-        const AudioContext =
-            window.AudioContext ||
-            window.webkitAudioContext;
-
-        if(!AudioContext) return null;
-
-        audioContext =
-            new AudioContext();
-    }
-
-    if(audioContext.state === "suspended"){
-        audioContext.resume();
-    }
-
-    return audioContext;
-}
-
-
-/* Soft background music */
-
-function startBackgroundMusic(){
-
-    if(backgroundStarted) return;
-
-    const ctx =
-        getAudioContext();
-
-    if(!ctx) return;
-
-    backgroundStarted = true;
-
-    const notes =
-        [261.63, 329.63, 392.00, 329.63];
-
-    let index = 0;
-
-    function playBackgroundNote(){
-
-        if(!backgroundStarted) return;
-
-        const oscillator =
-            ctx.createOscillator();
-
-        const gain =
-            ctx.createGain();
-
-        oscillator.type = "sine";
-
-        oscillator.frequency.value =
-            notes[index];
-
-        oscillator.connect(gain);
-        gain.connect(ctx.destination);
-
-        const now =
-            ctx.currentTime;
-
-        /* VERY QUIET background */
-
-        gain.gain.setValueAtTime(
-            0.018,
-            now
-        );
-
-        gain.gain.exponentialRampToValueAtTime(
-            0.001,
-            now + 0.7
-        );
-
-        oscillator.start(now);
-
-        oscillator.stop(
-            now + 0.75
-        );
-/* =====================================================
-   SOUND SYSTEM - LOUD & FUN FOR KIDS
-===================================================== */
-
-let audioContext = null;
-let backgroundStarted = false;
-let backgroundTimer = null;
-
-
-/* Create / resume audio */
-
-function getAudioContext(){
-
-    if(!audioContext){
-
-        const AudioContext =
-            window.AudioContext ||
-            window.webkitAudioContext;
-
-        if(!AudioContext) return null;
-
-        audioContext = new AudioContext();
-    }
-
-    if(audioContext.state === "suspended"){
-        audioContext.resume();
-    }
-
-    return audioContext;
-}
-
-
-/* =====================================================
-   BACKGROUND MUSIC
-   Noticeable but softer than jump/celebration
-===================================================== */
-
-function startBackgroundMusic(){
-
-    if(backgroundStarted) return;
-
-    const ctx = getAudioContext();
-
-    if(!ctx) return;
-
-    backgroundStarted = true;
-
-    const notes = [
-        261.63,
-        329.63,
-        392.00,
-        329.63,
-        293.66,
-        349.23,
-        440.00,
-        349.23
-    ];
-
-    let index = 0;
-
-    function playBackgroundNote(){
-
-        if(!backgroundStarted) return;
-
-        const oscillator =
-            ctx.createOscillator();
-
-        const gain =
-            ctx.createGain();
-
-        oscillator.type = "sine";
-
-        oscillator.frequency.value =
-            notes[index];
-
-        oscillator.connect(gain);
-        gain.connect(ctx.destination);
-
-        const now =
-            ctx.currentTime;
-
-        /* Background is audible but not dominant */
-
-        gain.gain.setValueAtTime(
-            0.045,
-            now
-        );
-
-        gain.gain.exponentialRampToValueAtTime(
-            0.001,
-            now + 0.8
-        );
-
-        oscillator.start(now);
-
-        oscillator.stop(
-            now + 0.85
-        );
-
-        index =
-            (index + 1) % notes.length;
-
-        backgroundTimer =
-            setTimeout(
-                playBackgroundNote,
-                1000
-            );
-    }
-
-    playBackgroundNote();
-}
-
-
-/* =====================================================
-   LOUD & FUN FROG JUMP SOUND
-===================================================== */
-
-function playJumpSound(){
-
-    const ctx =
-        getAudioContext();
-
-    if(!ctx) return;
-
-    const now =
-        ctx.currentTime;
-
-
-    /* First sound - low "BOING" */
-
-    const osc1 =
-        ctx.createOscillator();
-
-    const gain1 =
-        ctx.createGain();
-
-    osc1.type =
-        "triangle";
-
-    osc1.frequency.setValueAtTime(
-        170,
-        now
-    );
-
-    osc1.frequency.exponentialRampToValueAtTime(
-        650,
-        now + 0.22
-    );
-
-    gain1.gain.setValueAtTime(
-        0.65,
-        now
-    );
-
-    gain1.gain.exponentialRampToValueAtTime(
-        0.001,
-        now + 0.32
-    );
-
-    osc1.connect(gain1);
-    gain1.connect(ctx.destination);
-
-    osc1.start(now);
-
-    osc1.stop(
-        now + 0.34
-    );
-
-
-    /* Second sound - little "POP" */
-
-    const osc2 =
-        ctx.createOscillator();
-
-    const gain2 =
-        ctx.createGain();
-
-    osc2.type =
-        "sine";
-
-    osc2.frequency.setValueAtTime(
-        700,
-        now + 0.08
-    );
-
-    osc2.frequency.exponentialRampToValueAtTime(
-        1000,
-        now + 0.18
-    );
-
-    gain2.gain.setValueAtTime(
-        0.35,
-        now + 0.08
-    );
-
-    gain2.gain.exponentialRampToValueAtTime(
-        0.001,
-        now + 0.3
-    );
-
-    osc2.connect(gain2);
-    gain2.connect(ctx.destination);
-
-    osc2.start(
-        now + 0.08
-    );
-
-    osc2.stop(
-        now + 0.32
-    );
-}
-
-
-/* =====================================================
-   BIG CELEBRATION SOUND
-===================================================== */
-
-function playCelebrationSound(){
-
-    const ctx =
-        getAudioContext();
-
-    if(!ctx) return;
-
-    const now =
-        ctx.currentTime;
-
-
-    /* Happy melody */
-
-    const notes = [
-        523.25,
-        659.25,
-        783.99,
-        1046.50,
-        1318.51
-    ];
-
-
-    notes.forEach(
-        (frequency, index) => {
-
-            const oscillator =
-                ctx.createOscillator();
-
-            const gain =
-                ctx.createGain();
-
-            oscillator.type =
-                index === 4
-                ? "triangle"
-                : "sine";
-
-            oscillator.frequency.value =
-                frequency;
-
-            oscillator.connect(gain);
-
-            gain.connect(
-                ctx.destination
-            );
-
-            const startTime =
-                now + index * 0.13;
-
-            gain.gain.setValueAtTime(
-                0.55,
-                startTime
-            );
-
-            gain.gain.exponentialRampToValueAtTime(
-                0.001,
-                startTime + 0.55
-            );
-
-            oscillator.start(
-                startTime
-            );
-
-            oscillator.stop(
-                startTime + 0.6
-            );
-
-        }
-    );
-
-
-    /* Extra celebration "WOW" sound */
-
-    const wow =
-        ctx.createOscillator();
-
-    const wowGain =
-        ctx.createGain();
-
-    wow.type =
-        "triangle";
-
-    wow.frequency.setValueAtTime(
-        500,
-        now + 0.55
-    );
-
-    wow.frequency.exponentialRampToValueAtTime(
-        1200,
-        now + 0.9
-    );
-
-    wowGain.gain.setValueAtTime(
-        0.45,
-        now + 0.55
-    );
-
-    wowGain.gain.exponentialRampToValueAtTime(
-        0.001,
-        now + 1.1
-    );
-
-    wow.connect(wowGain);
-
-    wowGain.connect(
-        ctx.destination
-    );
-
-    wow.start(
-        now + 0.55
-    );
-
-    wow.stop(
-        now + 1.15
-    );
-}
-
-
-/* =====================================================
-   DRAW ONE JUMP
-===================================================== */
-
-function drawJumpArrow(from, to){
+/* =========================================================
+   DRAW ONE ARROW
+========================================================= */
+
+function drawJumpArrow(from,to){
 
     const width =
         jumpSvg.clientWidth;
 
     const startX =
-        (from / maxVal) * width;
+        (from/maxVal) * width;
 
     const endX =
-        (to / maxVal) * width;
+        (to/maxVal) * width;
 
     const direction =
         to > from ? 1 : -1;
 
     const middleX =
-        (startX + endX) / 2;
+        (startX+endX)/2;
 
-    const baseY =
-        78;
-
-    const topY =
-        22;
+    const baseY = 78;
+    const topY = 20;
 
     const color =
         direction === 1
         ? "#1e90ff"
         : "#ff9f43";
 
-
-    /* Arc */
 
     const path =
         document.createElementNS(
@@ -1109,6 +1191,7 @@ function drawJumpArrow(from, to){
         `M ${startX} ${baseY}
          Q ${middleX} ${topY}
          ${endX} ${baseY}`;
+
 
     path.setAttribute(
         "d",
@@ -1130,14 +1213,14 @@ function drawJumpArrow(from, to){
 
     /* Arrow head */
 
-    const arrowSize =
-        9;
+    const arrowSize = 9;
 
     const arrow =
         document.createElementNS(
             "http://www.w3.org/2000/svg",
             "polygon"
         );
+
 
     let points;
 
@@ -1158,6 +1241,7 @@ function drawJumpArrow(from, to){
 
     }
 
+
     arrow.setAttribute(
         "points",
         points
@@ -1174,46 +1258,36 @@ function drawJumpArrow(from, to){
     );
 
     jumpSvg.appendChild(arrow);
+
 }
 
 
-/* =====================================================
+/* =========================================================
    ONE JUMP ONLY
-===================================================== */
+========================================================= */
 
-function makeOneJump(){
+async function startJump(){
 
-    /* Start soft background after first interaction */
+    if(isJumping) return;
+
+    /* First user interaction starts music */
 
     startBackgroundMusic();
 
+    let steps =
+        Number(stepsInput.value);
 
-    /* Read number of required steps */
-
-    totalSteps =
+    steps =
         Math.max(
             1,
             Math.min(
                 10,
-                Number(stepsInput.value) || 1
+                steps || 1
             )
         );
 
     stepsInput.value =
-        totalSteps;
-
-
-    /* Don't allow more jumps than requested */
-
-    if(completedSteps >= totalSteps){
-
-        feedback.textContent =
-            "🐸 You finished all " +
-            totalSteps +
-            " jumps! Now check your answer! ✨";
-
-        return;
-    }
+        steps;
 
 
     const direction =
@@ -1222,140 +1296,178 @@ function makeOneJump(){
         : -1;
 
 
-    const nextPos =
+    /*
+       IMPORTANT:
+       Steps does NOT make the frog
+       jump several times.
+
+       Each button press = ONE jump.
+    */
+
+
+    const target =
         currentPos + direction;
 
 
-    /* Check number line limits */
-
     if(
-        nextPos < minVal ||
-        nextPos > maxVal
+        target < minVal ||
+        target > maxVal
     ){
 
         feedback.textContent =
             "⚠️ The frog cannot jump outside the number line!";
 
         return;
+
     }
 
 
-    /* Draw ONLY ONE arrow */
+    /* Check how many jumps have been completed */
+
+    const completedJumps =
+        Math.abs(
+            currentPos-startPos
+        );
+
+
+    if(completedJumps >= steps){
+
+        feedback.textContent =
+            "🐸 You already made all the jumps! Now check your answer!";
+
+        return;
+
+    }
+
+
+    isJumping = true;
+
+    jumpBtn.disabled = true;
+
+    checkBtn.disabled = true;
+
+
+    jumpSvg.innerHTML = "";
+
 
     drawJumpArrow(
         currentPos,
-        nextPos
+        target
     );
 
 
-    /* Jump sound */
+    jumpSound();
 
-    playJumpSound();
-
-
-    /* Move ONLY ONE number */
 
     currentPos =
-        nextPos;
-
-
-    completedSteps++;
+        target;
 
 
     positionFrog();
 
 
-    /* Feedback */
+    const newCount =
+        Math.abs(
+            currentPos-startPos
+        );
 
-    if(completedSteps < totalSteps){
 
-        const remaining =
-            totalSteps - completedSteps;
+    if(newCount < steps){
 
         feedback.textContent =
             "🐸 Great! " +
-            completedSteps +
-            " jump done! " +
-            remaining +
-            " more to go!";
+            newCount +
+            " jump" +
+            (newCount===1?"":"s") +
+            " done. Jump again!";
 
     }else{
 
         feedback.textContent =
-            "🎉 You completed " +
-            totalSteps +
-            " jumps! " +
-            "Now check your answer! ✅";
+            "🎯 You finished " +
+            steps +
+            " jumps! What is your answer?";
 
-        jumpBtn.disabled = true;
     }
+
+
+    await new Promise(
+        resolve =>
+        setTimeout(
+            resolve,
+            550
+        )
+    );
+
+
+    isJumping = false;
+
+    jumpBtn.disabled = false;
+
+    checkBtn.disabled = false;
+
 }
 
 
-/* =====================================================
+/* =========================================================
    CHECK ANSWER
-===================================================== */
+========================================================= */
 
 function checkAnswer(){
+
+    if(isJumping){
+
+        feedback.textContent =
+            "🐸 Wait for the jump to finish!";
+
+        return;
+
+    }
+
 
     startBackgroundMusic();
 
 
-    /* Make sure all jumps are completed */
+    const steps =
+        Number(stepsInput.value);
 
-    if(completedSteps < totalSteps){
+    const completedJumps =
+        Math.abs(
+            currentPos-startPos
+        );
 
-        const remaining =
-            totalSteps - completedSteps;
+
+    if(completedJumps !== steps){
 
         feedback.textContent =
-            "🐸 Keep going! You still have " +
-            remaining +
-            " jump" +
-            (remaining > 1 ? "s" : "") +
-            " to make.";
+            "🤔 Not yet! We need " +
+            steps +
+            " jumps. Keep going!";
+
+        jumpSound();
 
         return;
+
     }
 
 
-    /* Calculate correct answer */
-
-    const direction =
-        directionSelect.value === "right"
-        ? 1
-        : -1;
-
-    const correctAnswer =
-        startPos +
-        direction * totalSteps;
+    celebrationSound();
 
 
-    /* Make sure frog reached correct answer */
+    feedback.textContent =
+        "🎉 AMAZING! The answer is " +
+        currentPos +
+        "! 🎉";
 
-    if(currentPos === correctAnswer){
 
-        playCelebrationSound();
+    celebrate();
 
-        feedback.innerHTML =
-            "🎉🎉 GREAT JOB! 🎉🎉<br>" +
-            "The answer is <strong>" +
-            correctAnswer +
-            "</strong>! ⭐";
-
-        celebrate();
-
-    }else{
-
-        feedback.textContent =
-            "🤔 Let's look at the jumps again!";
-    }
 }
 
 
-/* =====================================================
+/* =========================================================
    CELEBRATION
-===================================================== */
+========================================================= */
 
 function celebrate(){
 
@@ -1370,21 +1482,21 @@ function celebrate(){
         "block";
 
 
-    const items =
-        [
-            "⭐",
-            "✨",
-            "🌟",
-            "🎈",
-            "🎉",
-            "🐸",
-            "🏆"
-        ];
+    const items = [
+        "⭐",
+        "✨",
+        "🌟",
+        "🎈",
+        "🎉",
+        "🥳",
+        "🐸",
+        "🏆"
+    ];
 
 
     for(
-        let i = 0;
-        i < 30;
+        let i=0;
+        i<35;
         i++
     ){
 
@@ -1404,35 +1516,39 @@ function celebrate(){
 
 
         star.style.left =
-            Math.random() * 100 +
+            Math.random()*100 +
             "vw";
 
 
         star.style.animationDelay =
-            Math.random() * 0.5 +
+            Math.random()*0.6 +
             "s";
 
 
         zone.appendChild(star);
+
     }
 
 
     setTimeout(
-        () => {
+        ()=>{
             zone.style.display =
                 "none";
         },
-        2200
+        2300
     );
+
 }
 
 
-/* =====================================================
+/* =========================================================
    CONTROL CHANGES
-===================================================== */
+========================================================= */
 
 startSelect.onchange =
 function(){
+
+    if(isJumping) return;
 
     resetGame();
 
@@ -1442,22 +1558,15 @@ function(){
 directionSelect.onchange =
 function(){
 
-    if(completedSteps > 0){
+    if(isJumping) return;
 
-        currentPos =
-            startPos;
+    feedback.textContent =
+        "";
 
-        completedSteps = 0;
-
-        jumpSvg.innerHTML = "";
-
-        jumpBtn.disabled = false;
-
-        feedback.textContent =
-            "🐸 Direction changed. Ready to jump!";
-
-        positionFrog();
-    }
+    /*
+       Changing direction prepares
+       the next jump.
+    */
 
 };
 
@@ -1465,63 +1574,89 @@ function(){
 stepsInput.onchange =
 function(){
 
-    if(completedSteps > 0){
-
-        currentPos =
-            startPos;
-
-        completedSteps = 0;
-
-        jumpSvg.innerHTML = "";
-
-        jumpBtn.disabled = false;
-    }
-
+    if(isJumping) return;
 
     let value =
-        Number(stepsInput.value);
+        Number(
+            stepsInput.value
+        );
 
-    if(value < 1)
-        value = 1;
+    if(value<1)
+        value=1;
 
-    if(value > 10)
-        value = 10;
+    if(value>10)
+        value=10;
 
     stepsInput.value =
         value;
 
-    totalSteps =
-        value;
-
-    feedback.textContent = "";
-
-    positionFrog();
 };
 
 
-/* =====================================================
+/* =========================================================
    RESIZE
-===================================================== */
+========================================================= */
 
 window.addEventListener(
     "resize",
-    () => {
+    ()=>{
+        if(!isJumping){
 
-        if(completedSteps === 0){
+            /*
+               Keep frog position.
+               Remove old arrow because
+               screen dimensions changed.
+            */
 
             jumpSvg.innerHTML = "";
 
-        }
+            positionFrog();
 
-        positionFrog();
+        }
+    }
+);
+
+
+/* =========================================================
+   TRY AUTOPLAY MUSIC
+========================================================= */
+
+window.addEventListener(
+    "load",
+    ()=>{
+
+        /*
+           Some browsers allow this,
+           others block autoplay.
+        */
+
+        setTimeout(
+            ()=>{
+                startBackgroundMusic();
+            },
+            300
+        );
 
     }
 );
 
 
-/* =====================================================
+/* =========================================================
+   FIRST USER INTERACTION
+========================================================= */
+
+document.addEventListener(
+    "pointerdown",
+    ()=>{
+        startBackgroundMusic();
+    },
+    {once:true}
+);
+
+
+/* =========================================================
    START GAME
-===================================================== */
+========================================================= */
 
 initBoard();
 
