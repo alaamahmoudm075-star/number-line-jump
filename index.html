@@ -730,6 +730,104 @@ function startBackgroundMusic(){
         oscillator.stop(
             now + 0.75
         );
+/* =====================================================
+   SOUND SYSTEM - LOUD & FUN FOR KIDS
+===================================================== */
+
+let audioContext = null;
+let backgroundStarted = false;
+let backgroundTimer = null;
+
+
+/* Create / resume audio */
+
+function getAudioContext(){
+
+    if(!audioContext){
+
+        const AudioContext =
+            window.AudioContext ||
+            window.webkitAudioContext;
+
+        if(!AudioContext) return null;
+
+        audioContext = new AudioContext();
+    }
+
+    if(audioContext.state === "suspended"){
+        audioContext.resume();
+    }
+
+    return audioContext;
+}
+
+
+/* =====================================================
+   BACKGROUND MUSIC
+   Noticeable but softer than jump/celebration
+===================================================== */
+
+function startBackgroundMusic(){
+
+    if(backgroundStarted) return;
+
+    const ctx = getAudioContext();
+
+    if(!ctx) return;
+
+    backgroundStarted = true;
+
+    const notes = [
+        261.63,
+        329.63,
+        392.00,
+        329.63,
+        293.66,
+        349.23,
+        440.00,
+        349.23
+    ];
+
+    let index = 0;
+
+    function playBackgroundNote(){
+
+        if(!backgroundStarted) return;
+
+        const oscillator =
+            ctx.createOscillator();
+
+        const gain =
+            ctx.createGain();
+
+        oscillator.type = "sine";
+
+        oscillator.frequency.value =
+            notes[index];
+
+        oscillator.connect(gain);
+        gain.connect(ctx.destination);
+
+        const now =
+            ctx.currentTime;
+
+        /* Background is audible but not dominant */
+
+        gain.gain.setValueAtTime(
+            0.045,
+            now
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.001,
+            now + 0.8
+        );
+
+        oscillator.start(now);
+
+        oscillator.stop(
+            now + 0.85
+        );
 
         index =
             (index + 1) % notes.length;
@@ -737,7 +835,7 @@ function startBackgroundMusic(){
         backgroundTimer =
             setTimeout(
                 playBackgroundNote,
-                900
+                1000
             );
     }
 
@@ -745,7 +843,9 @@ function startBackgroundMusic(){
 }
 
 
-/* Frog jump sound */
+/* =====================================================
+   LOUD & FUN FROG JUMP SOUND
+===================================================== */
 
 function playJumpSound(){
 
@@ -754,50 +854,98 @@ function playJumpSound(){
 
     if(!ctx) return;
 
-    const oscillator =
-        ctx.createOscillator();
-
-    const gain =
-        ctx.createGain();
-
-    oscillator.type =
-        "triangle";
-
-    oscillator.connect(gain);
-    gain.connect(ctx.destination);
-
     const now =
         ctx.currentTime;
 
-    oscillator.frequency.setValueAtTime(
-        180,
+
+    /* First sound - low "BOING" */
+
+    const osc1 =
+        ctx.createOscillator();
+
+    const gain1 =
+        ctx.createGain();
+
+    osc1.type =
+        "triangle";
+
+    osc1.frequency.setValueAtTime(
+        170,
         now
     );
 
-    oscillator.frequency.exponentialRampToValueAtTime(
-        520,
+    osc1.frequency.exponentialRampToValueAtTime(
+        650,
+        now + 0.22
+    );
+
+    gain1.gain.setValueAtTime(
+        0.65,
+        now
+    );
+
+    gain1.gain.exponentialRampToValueAtTime(
+        0.001,
+        now + 0.32
+    );
+
+    osc1.connect(gain1);
+    gain1.connect(ctx.destination);
+
+    osc1.start(now);
+
+    osc1.stop(
+        now + 0.34
+    );
+
+
+    /* Second sound - little "POP" */
+
+    const osc2 =
+        ctx.createOscillator();
+
+    const gain2 =
+        ctx.createGain();
+
+    osc2.type =
+        "sine";
+
+    osc2.frequency.setValueAtTime(
+        700,
+        now + 0.08
+    );
+
+    osc2.frequency.exponentialRampToValueAtTime(
+        1000,
         now + 0.18
     );
 
-    gain.gain.setValueAtTime(
-        0.32,
-        now
+    gain2.gain.setValueAtTime(
+        0.35,
+        now + 0.08
     );
 
-    gain.gain.exponentialRampToValueAtTime(
+    gain2.gain.exponentialRampToValueAtTime(
         0.001,
-        now + 0.28
+        now + 0.3
     );
 
-    oscillator.start(now);
+    osc2.connect(gain2);
+    gain2.connect(ctx.destination);
 
-    oscillator.stop(
-        now + 0.3
+    osc2.start(
+        now + 0.08
+    );
+
+    osc2.stop(
+        now + 0.32
     );
 }
 
 
-/* Happy check answer sound */
+/* =====================================================
+   BIG CELEBRATION SOUND
+===================================================== */
 
 function playCelebrationSound(){
 
@@ -806,13 +954,20 @@ function playCelebrationSound(){
 
     if(!ctx) return;
 
-    const notes =
-        [
-            523.25,
-            659.25,
-            783.99,
-            1046.50
-        ];
+    const now =
+        ctx.currentTime;
+
+
+    /* Happy melody */
+
+    const notes = [
+        523.25,
+        659.25,
+        783.99,
+        1046.50,
+        1318.51
+    ];
+
 
     notes.forEach(
         (frequency, index) => {
@@ -824,26 +979,30 @@ function playCelebrationSound(){
                 ctx.createGain();
 
             oscillator.type =
-                "sine";
+                index === 4
+                ? "triangle"
+                : "sine";
 
             oscillator.frequency.value =
                 frequency;
 
             oscillator.connect(gain);
-            gain.connect(ctx.destination);
+
+            gain.connect(
+                ctx.destination
+            );
 
             const startTime =
-                ctx.currentTime +
-                index * 0.13;
+                now + index * 0.13;
 
             gain.gain.setValueAtTime(
-                0.32,
+                0.55,
                 startTime
             );
 
             gain.gain.exponentialRampToValueAtTime(
                 0.001,
-                startTime + 0.45
+                startTime + 0.55
             );
 
             oscillator.start(
@@ -851,10 +1010,56 @@ function playCelebrationSound(){
             );
 
             oscillator.stop(
-                startTime + 0.5
+                startTime + 0.6
             );
 
         }
+    );
+
+
+    /* Extra celebration "WOW" sound */
+
+    const wow =
+        ctx.createOscillator();
+
+    const wowGain =
+        ctx.createGain();
+
+    wow.type =
+        "triangle";
+
+    wow.frequency.setValueAtTime(
+        500,
+        now + 0.55
+    );
+
+    wow.frequency.exponentialRampToValueAtTime(
+        1200,
+        now + 0.9
+    );
+
+    wowGain.gain.setValueAtTime(
+        0.45,
+        now + 0.55
+    );
+
+    wowGain.gain.exponentialRampToValueAtTime(
+        0.001,
+        now + 1.1
+    );
+
+    wow.connect(wowGain);
+
+    wowGain.connect(
+        ctx.destination
+    );
+
+    wow.start(
+        now + 0.55
+    );
+
+    wow.stop(
+        now + 1.15
     );
 }
 
