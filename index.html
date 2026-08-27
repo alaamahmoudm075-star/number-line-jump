@@ -148,7 +148,6 @@ input {
     position: absolute;
     width: 100%;
     top: -6px;
-    padding: 0;
 }
 
 .tick-mark {
@@ -190,11 +189,13 @@ input {
     position: absolute;
     top: -70px;
     font-size: 3rem;
-    transition: left 0.55s cubic-bezier(.25,.46,.45,.94);
+    transition: left 0.5s cubic-bezier(.25,.46,.45,.94);
     transform: translateX(-50%);
     z-index: 10;
     filter: drop-shadow(0 4px 5px rgba(0,0,0,.15));
 }
+
+/* JUMP ARROWS */
 
 .jump-svg {
     position: absolute;
@@ -213,31 +214,25 @@ input {
     stroke-linecap: round;
     stroke-dasharray: 7 5;
     opacity: 0;
-    animation: showArc 0.35s ease-out forwards;
+    animation: showArc 0.3s ease-out forwards;
 }
 
 .arrow-head {
     opacity: 0;
-    animation: showArrow 0.25s ease-out 0.15s forwards;
+    animation: showArrow 0.2s ease-out 0.1s forwards;
 }
 
 @keyframes showArc {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 @keyframes showArrow {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
+
+/* BUTTONS */
 
 .action-buttons {
     display: flex;
@@ -276,6 +271,13 @@ input {
     box-shadow: 0 5px 0 #d37e23;
 }
 
+.btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+/* FEEDBACK */
+
 .feedback {
     font-family: 'Fredoka', cursive;
     font-size: 1.3rem;
@@ -283,6 +285,8 @@ input {
     min-height: 38px;
     margin-top: 22px;
 }
+
+/* CELEBRATION */
 
 .celebration {
     position: fixed;
@@ -373,7 +377,7 @@ input {
     <h1>🐸 Number Line Jump! 🐸</h1>
 
     <p class="subtitle">
-        Set your starting point, choose the direction and jump!
+        Set your starting point, choose the direction and count your jumps!
     </p>
 
     <div class="controls">
@@ -385,14 +389,25 @@ input {
 
         <div class="control-group">
             <label>2. Direction:</label>
+
             <select id="direction">
-                <option value="right">➡️ Right (Add)</option>
-                <option value="left">⬅️ Left (Subtract)</option>
+
+                <option value="right">
+                    ➡️ Right (Add)
+                </option>
+
+                <option value="left">
+                    ⬅️ Left (Subtract)
+                </option>
+
             </select>
+
         </div>
 
         <div class="control-group">
+
             <label>3. Steps:</label>
+
             <input
                 type="number"
                 id="steps"
@@ -400,12 +415,15 @@ input {
                 min="1"
                 max="10"
             >
+
         </div>
 
         <button
             class="reset-btn"
             onclick="resetGame()">
+
             Reset
+
         </button>
 
     </div>
@@ -416,19 +434,25 @@ input {
         <div
             id="frog"
             class="frog-token">
+
             🐸
+
         </div>
+
 
         <svg
             id="jumpSvg"
             class="jump-svg">
+
         </svg>
+
 
         <div class="line">
 
             <div
                 id="ticksContainer"
                 class="ticks-container">
+
             </div>
 
         </div>
@@ -441,14 +465,19 @@ input {
         <button
             id="jumpBtn"
             class="btn jump-btn"
-            onclick="startJump()">
+            onclick="makeOneJump()">
+
             Let's Jump! ✨
+
         </button>
+
 
         <button
             class="btn check-btn"
             onclick="checkAnswer()">
+
             Check My Answer ✅
+
         </button>
 
     </div>
@@ -457,6 +486,7 @@ input {
     <div
         id="feedback"
         class="feedback">
+
     </div>
 
 </div>
@@ -465,17 +495,28 @@ input {
 <div
     id="celebrationZone"
     class="celebration">
+
 </div>
 
 
 <script>
+
+/* ============================= */
+/* BASIC SETTINGS */
+/* ============================= */
 
 const minVal = 0;
 const maxVal = 20;
 
 let currentPos = 5;
 let startPos = 5;
-let isJumping = false;
+
+let jumpsMade = 0;
+
+
+/* ============================= */
+/* ELEMENTS */
+/* ============================= */
 
 const startSelect =
     document.getElementById("startNum");
@@ -498,8 +539,13 @@ const jumpSvg =
 const feedback =
     document.getElementById("feedback");
 
+const jumpBtn =
+    document.getElementById("jumpBtn");
 
-/* ---------------- CREATE START OPTIONS ---------------- */
+
+/* ============================= */
+/* CREATE START NUMBERS 0 - 20 */
+/* ============================= */
 
 for(let i = minVal; i <= maxVal; i++){
 
@@ -507,15 +553,19 @@ for(let i = minVal; i <= maxVal; i++){
         document.createElement("option");
 
     option.value = i;
+
     option.textContent = i;
 
     startSelect.appendChild(option);
+
 }
 
 startSelect.value = startPos;
 
 
-/* ---------------- CREATE NUMBER LINE ---------------- */
+/* ============================= */
+/* CREATE NUMBER LINE */
+/* ============================= */
 
 function initBoard(){
 
@@ -526,9 +576,11 @@ function initBoard(){
         const tick =
             document.createElement("div");
 
-        tick.className = "tick-mark";
+        tick.className =
+            "tick-mark";
 
-        tick.dataset.value = i;
+        tick.dataset.value =
+            i;
 
         tick.innerHTML =
             '<div class="tick-line"></div>' +
@@ -537,13 +589,17 @@ function initBoard(){
             '</div>';
 
         ticksContainer.appendChild(tick);
+
     }
 
     positionFrog();
+
 }
 
 
-/* ---------------- POSITION FROG ---------------- */
+/* ============================= */
+/* POSITION FROG */
+/* ============================= */
 
 function positionFrog(){
 
@@ -561,33 +617,43 @@ function positionFrog(){
 
             tick.classList.toggle(
                 "active",
-                Number(tick.dataset.value) === currentPos
+                Number(tick.dataset.value)
+                === currentPos
             );
 
         });
+
 }
 
 
-/* ---------------- RESET ---------------- */
+/* ============================= */
+/* RESET GAME */
+/* ============================= */
 
 function resetGame(){
-
-    if(isJumping) return;
 
     currentPos =
         Number(startSelect.value);
 
-    startPos = currentPos;
+    startPos =
+        currentPos;
+
+    jumpsMade = 0;
 
     jumpSvg.innerHTML = "";
 
     feedback.textContent = "";
 
+    jumpBtn.disabled = false;
+
     positionFrog();
+
 }
 
 
-/* ---------------- SOUND ---------------- */
+/* ============================= */
+/* SOUND */
+/* ============================= */
 
 function playSound(type){
 
@@ -613,7 +679,8 @@ function playSound(type){
 
         if(type === "jump"){
 
-            oscillator.type = "triangle";
+            oscillator.type =
+                "triangle";
 
             oscillator.frequency.setValueAtTime(
                 250,
@@ -641,9 +708,12 @@ function playSound(type){
                 ctx.currentTime + 0.18
             );
 
-        }else{
+        }
 
-            oscillator.type = "sine";
+        else{
+
+            oscillator.type =
+                "sine";
 
             oscillator.frequency.setValueAtTime(
                 523,
@@ -665,17 +735,23 @@ function playSound(type){
             oscillator.stop(
                 ctx.currentTime + 0.6
             );
+
         }
 
-    }catch(e){
+    }
+
+    catch(e){
 
         /* Sound is optional */
 
     }
+
 }
 
 
-/* ---------------- DRAW ONE JUMP ---------------- */
+/* ============================= */
+/* DRAW ONE ARROW */
+/* ============================= */
 
 function drawJumpArrow(from, to){
 
@@ -694,15 +770,19 @@ function drawJumpArrow(from, to){
     const middleX =
         (startX + endX) / 2;
 
-    const baseY = 78;
+    const baseY =
+        78;
 
-    const topY = 25;
+    const topY =
+        25;
 
     const color =
         direction === 1
         ? "#1e90ff"
         : "#ff9f43";
 
+
+    /* ARC */
 
     const path =
         document.createElementNS(
@@ -733,16 +813,16 @@ function drawJumpArrow(from, to){
     jumpSvg.appendChild(path);
 
 
-    /* Arrow head */
+    /* ARROW HEAD */
 
-    const arrowSize = 8;
+    const arrowSize =
+        8;
 
     const arrow =
         document.createElementNS(
             "http://www.w3.org/2000/svg",
             "polygon"
         );
-
 
     let points;
 
@@ -754,7 +834,9 @@ function drawJumpArrow(from, to){
              ${endX-arrowSize},${baseY-arrowSize}
              ${endX-arrowSize},${baseY+arrowSize}`;
 
-    }else{
+    }
+
+    else{
 
         points =
             `${endX},${baseY}
@@ -784,22 +866,42 @@ function drawJumpArrow(from, to){
 }
 
 
-/* ---------------- JUMP STEP BY STEP ---------------- */
+/* ============================= */
+/* MAKE ONE JUMP ONLY */
+/* ============================= */
 
-async function startJump(){
+function makeOneJump(){
 
-    if(isJumping) return;
-
-    let steps =
+    const requiredSteps =
         Number(stepsInput.value);
 
-    steps =
+
+    const safeSteps =
         Math.max(
             1,
-            Math.min(10, steps || 1)
+            Math.min(
+                10,
+                requiredSteps || 1
+            )
         );
 
-    stepsInput.value = steps;
+
+    stepsInput.value =
+        safeSteps;
+
+
+    /* Already finished */
+
+    if(jumpsMade >= safeSteps){
+
+        feedback.textContent =
+            "🎉 We already made " +
+            safeSteps +
+            " jumps!";
+
+        return;
+
+    }
 
 
     const direction =
@@ -808,91 +910,113 @@ async function startJump(){
         : -1;
 
 
-    const target =
-        currentPos + direction * steps;
+    const nextPos =
+        currentPos + direction;
 
+
+    /* Check number line boundary */
 
     if(
-        target < minVal ||
-        target > maxVal
+        nextPos < minVal ||
+        nextPos > maxVal
     ){
 
         feedback.textContent =
-            "⚠️ This jump goes outside the number line!";
+            "⚠️ We cannot jump outside the number line!";
 
         return;
-    }
-
-
-    isJumping = true;
-
-    feedback.textContent =
-        "🐸 Watch the jumps!";
-
-
-    jumpSvg.innerHTML = "";
-
-
-    for(
-        let i = 0;
-        i < steps;
-        i++
-    ){
-
-        const nextPos =
-            currentPos + direction;
-
-
-        drawJumpArrow(
-            currentPos,
-            nextPos
-        );
-
-
-        playSound("jump");
-
-
-        currentPos =
-            nextPos;
-
-
-        positionFrog();
-
-
-        await new Promise(
-            resolve =>
-            setTimeout(resolve, 700)
-        );
 
     }
 
 
-    isJumping = false;
+    /* One jump */
+
+    drawJumpArrow(
+        currentPos,
+        nextPos
+    );
 
 
-    feedback.textContent =
-        "✨ Jump finished!";
+    playSound("jump");
+
+
+    currentPos =
+        nextPos;
+
+
+    jumpsMade++;
+
+
+    positionFrog();
+
+
+    /* Feedback */
+
+    if(jumpsMade < safeSteps){
+
+        feedback.textContent =
+            "🐸 Jump " +
+            jumpsMade +
+            " of " +
+            safeSteps +
+            "! Keep counting!";
+
+    }
+
+    else{
+
+        feedback.textContent =
+            "🎉 We made " +
+            safeSteps +
+            " jumps! " +
+            "Where did we land?";
+
+    }
 
 }
 
 
-/* ---------------- CHECK ANSWER ---------------- */
+/* ============================= */
+/* CHECK ANSWER */
+/* ============================= */
 
 function checkAnswer(){
 
-    if(isJumping){
+    const requiredSteps =
+        Number(stepsInput.value);
+
+
+    const safeSteps =
+        Math.max(
+            1,
+            Math.min(
+                10,
+                requiredSteps || 1
+            )
+        );
+
+
+    if(jumpsMade < safeSteps){
 
         feedback.textContent =
-            "🐸 Wait until the jump is finished!";
+            "🐸 We need " +
+            (safeSteps - jumpsMade) +
+            " more jump" +
+            ((safeSteps - jumpsMade) === 1 ? "" : "s") +
+            "!";
 
         return;
+
     }
 
 
     playSound("cheer");
 
+
     feedback.textContent =
-        "🎉 Great job! You're doing amazing!";
+        "🎉 Great job! The answer is " +
+        currentPos +
+        "!";
 
 
     celebrate();
@@ -900,7 +1024,9 @@ function checkAnswer(){
 }
 
 
-/* ---------------- CELEBRATION ---------------- */
+/* ============================= */
+/* CELEBRATION */
+/* ============================= */
 
 function celebrate(){
 
@@ -909,7 +1035,8 @@ function celebrate(){
             "celebrationZone"
         );
 
-    zone.innerHTML = "";
+    zone.innerHTML =
+        "";
 
     zone.style.display =
         "block";
@@ -963,7 +1090,10 @@ function celebrate(){
 
     setTimeout(
         () => {
-            zone.style.display = "none";
+
+            zone.style.display =
+                "none";
+
         },
         2000
     );
@@ -971,63 +1101,70 @@ function celebrate(){
 }
 
 
-/* ---------------- CONTROL CHANGES ---------------- */
+/* ============================= */
+/* WHEN START CHANGES */
+/* ============================= */
 
-startSelect.onchange = function(){
+startSelect.onchange =
+function(){
 
-    if(isJumping) return;
-
-    currentPos =
-        Number(startSelect.value);
-
-    startPos =
-        currentPos;
-
-    jumpSvg.innerHTML = "";
-
-    feedback.textContent = "";
-
-    positionFrog();
+    resetGame();
 
 };
 
 
-directionSelect.onchange = function(){
+/* ============================= */
+/* WHEN DIRECTION CHANGES */
+/* ============================= */
 
-    if(isJumping) return;
+directionSelect.onchange =
+function(){
 
-    feedback.textContent = "";
+    resetGame();
 
 };
 
 
-stepsInput.onchange = function(){
+/* ============================= */
+/* WHEN STEPS CHANGES */
+/* ============================= */
 
-    if(isJumping) return;
+stepsInput.onchange =
+function(){
 
     let value =
         Number(stepsInput.value);
 
+
     if(value < 1)
         value = 1;
+
 
     if(value > 10)
         value = 10;
 
-    stepsInput.value = value;
+
+    stepsInput.value =
+        value;
+
+
+    resetGame();
 
 };
 
 
-/* ---------------- RESIZE ---------------- */
+/* ============================= */
+/* RESIZE */
+/* ============================= */
 
 window.addEventListener(
     "resize",
     () => {
 
-        if(!isJumping){
+        if(jumpSvg){
 
-            jumpSvg.innerHTML = "";
+            jumpSvg.innerHTML =
+                "";
 
             positionFrog();
 
@@ -1037,7 +1174,9 @@ window.addEventListener(
 );
 
 
-/* ---------------- START ---------------- */
+/* ============================= */
+/* START */
+/* ============================= */
 
 initBoard();
 
@@ -1046,4 +1185,4 @@ resetGame();
 </script>
 
 </body>
-</html>
+    </html>
