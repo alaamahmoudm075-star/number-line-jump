@@ -31,7 +31,7 @@ body {
 }
 
 .game-container {
-    background: rgba(255,255,255,0.96);
+    background: rgba(255,255,255,0.97);
     border-radius: 30px;
     padding: 30px;
     box-shadow: 0 15px 30px rgba(0,0,0,0.12);
@@ -195,7 +195,7 @@ input {
     filter: drop-shadow(0 4px 5px rgba(0,0,0,.15));
 }
 
-/* JUMP ARROWS */
+/* Jump Arrow */
 
 .jump-svg {
     position: absolute;
@@ -213,26 +213,32 @@ input {
     stroke-width: 4;
     stroke-linecap: round;
     stroke-dasharray: 7 5;
-    opacity: 0;
-    animation: showArc 0.3s ease-out forwards;
+    animation: showArc 0.25s ease-out forwards;
 }
 
 .arrow-head {
-    opacity: 0;
-    animation: showArrow 0.2s ease-out 0.1s forwards;
+    animation: showArrow 0.2s ease-out forwards;
 }
 
 @keyframes showArc {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes showArrow {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
-/* BUTTONS */
+/* Buttons */
 
 .action-buttons {
     display: flex;
@@ -276,17 +282,18 @@ input {
     cursor: not-allowed;
 }
 
-/* FEEDBACK */
+/* Feedback */
 
 .feedback {
     font-family: 'Fredoka', cursive;
-    font-size: 1.3rem;
+    font-size: 1.35rem;
     color: #2f3542;
-    min-height: 38px;
+    min-height: 45px;
     margin-top: 22px;
+    line-height: 1.4;
 }
 
-/* CELEBRATION */
+/* Celebration */
 
 .celebration {
     position: fixed;
@@ -318,6 +325,8 @@ input {
     }
 
 }
+
+/* Mobile */
 
 @media(max-width:600px) {
 
@@ -377,7 +386,7 @@ input {
     <h1>🐸 Number Line Jump! 🐸</h1>
 
     <p class="subtitle">
-        Set your starting point, choose the direction and count your jumps!
+        Set your starting point, choose the direction and jump!
     </p>
 
     <div class="controls">
@@ -389,25 +398,14 @@ input {
 
         <div class="control-group">
             <label>2. Direction:</label>
-
             <select id="direction">
-
-                <option value="right">
-                    ➡️ Right (Add)
-                </option>
-
-                <option value="left">
-                    ⬅️ Left (Subtract)
-                </option>
-
+                <option value="right">➡️ Right (Add)</option>
+                <option value="left">⬅️ Left (Subtract)</option>
             </select>
-
         </div>
 
         <div class="control-group">
-
             <label>3. Steps:</label>
-
             <input
                 type="number"
                 id="steps"
@@ -415,50 +413,39 @@ input {
                 min="1"
                 max="10"
             >
-
         </div>
 
         <button
             class="reset-btn"
             onclick="resetGame()">
-
             Reset
-
         </button>
 
     </div>
-
 
     <div class="number-line-wrapper">
 
         <div
             id="frog"
             class="frog-token">
-
             🐸
-
         </div>
-
 
         <svg
             id="jumpSvg"
             class="jump-svg">
-
         </svg>
-
 
         <div class="line">
 
             <div
                 id="ticksContainer"
                 class="ticks-container">
-
             </div>
 
         </div>
 
     </div>
-
 
     <div class="action-buttons">
 
@@ -466,44 +453,36 @@ input {
             id="jumpBtn"
             class="btn jump-btn"
             onclick="makeOneJump()">
-
-            Let's Jump! ✨
-
+            Let's Jump! 🐸
         </button>
 
-
         <button
+            id="checkBtn"
             class="btn check-btn"
             onclick="checkAnswer()">
-
             Check My Answer ✅
-
         </button>
 
     </div>
-
 
     <div
         id="feedback"
         class="feedback">
-
     </div>
 
 </div>
 
-
 <div
     id="celebrationZone"
     class="celebration">
-
 </div>
 
 
 <script>
 
-/* ============================= */
-/* BASIC SETTINGS */
-/* ============================= */
+/* =====================================================
+   GAME SETTINGS
+===================================================== */
 
 const minVal = 0;
 const maxVal = 20;
@@ -511,12 +490,13 @@ const maxVal = 20;
 let currentPos = 5;
 let startPos = 5;
 
-let jumpsMade = 0;
+let totalSteps = 3;
+let completedSteps = 0;
 
 
-/* ============================= */
-/* ELEMENTS */
-/* ============================= */
+/* =====================================================
+   ELEMENTS
+===================================================== */
 
 const startSelect =
     document.getElementById("startNum");
@@ -542,10 +522,13 @@ const feedback =
 const jumpBtn =
     document.getElementById("jumpBtn");
 
+const checkBtn =
+    document.getElementById("checkBtn");
 
-/* ============================= */
-/* CREATE START NUMBERS 0 - 20 */
-/* ============================= */
+
+/* =====================================================
+   CREATE START NUMBERS 0 - 20
+===================================================== */
 
 for(let i = minVal; i <= maxVal; i++){
 
@@ -553,19 +536,17 @@ for(let i = minVal; i <= maxVal; i++){
         document.createElement("option");
 
     option.value = i;
-
     option.textContent = i;
 
     startSelect.appendChild(option);
-
 }
 
 startSelect.value = startPos;
 
 
-/* ============================= */
-/* CREATE NUMBER LINE */
-/* ============================= */
+/* =====================================================
+   CREATE NUMBER LINE
+===================================================== */
 
 function initBoard(){
 
@@ -576,11 +557,9 @@ function initBoard(){
         const tick =
             document.createElement("div");
 
-        tick.className =
-            "tick-mark";
+        tick.className = "tick-mark";
 
-        tick.dataset.value =
-            i;
+        tick.dataset.value = i;
 
         tick.innerHTML =
             '<div class="tick-line"></div>' +
@@ -589,17 +568,15 @@ function initBoard(){
             '</div>';
 
         ticksContainer.appendChild(tick);
-
     }
 
     positionFrog();
-
 }
 
 
-/* ============================= */
-/* POSITION FROG */
-/* ============================= */
+/* =====================================================
+   POSITION FROG
+===================================================== */
 
 function positionFrog(){
 
@@ -610,25 +587,22 @@ function positionFrog(){
     frog.style.left =
         percent + "%";
 
-
     document
         .querySelectorAll(".tick-mark")
         .forEach(tick => {
 
             tick.classList.toggle(
                 "active",
-                Number(tick.dataset.value)
-                === currentPos
+                Number(tick.dataset.value) === currentPos
             );
 
         });
-
 }
 
 
-/* ============================= */
-/* RESET GAME */
-/* ============================= */
+/* =====================================================
+   RESET GAME
+===================================================== */
 
 function resetGame(){
 
@@ -638,7 +612,19 @@ function resetGame(){
     startPos =
         currentPos;
 
-    jumpsMade = 0;
+    totalSteps =
+        Math.max(
+            1,
+            Math.min(
+                10,
+                Number(stepsInput.value) || 1
+            )
+        );
+
+    stepsInput.value =
+        totalSteps;
+
+    completedSteps = 0;
 
     jumpSvg.innerHTML = "";
 
@@ -646,25 +632,69 @@ function resetGame(){
 
     jumpBtn.disabled = false;
 
-    positionFrog();
+    checkBtn.disabled = false;
 
+    positionFrog();
 }
 
 
-/* ============================= */
-/* SOUND */
-/* ============================= */
+/* =====================================================
+   SOUND SYSTEM
+===================================================== */
 
-function playSound(type){
+/* Background music is intentionally very soft.
+   It starts after the teacher/student interacts
+   with the page because browsers block autoplay.
+*/
 
-    try{
+let audioContext = null;
+let backgroundStarted = false;
+let backgroundTimer = null;
+
+
+function getAudioContext(){
+
+    if(!audioContext){
 
         const AudioContext =
             window.AudioContext ||
             window.webkitAudioContext;
 
-        const ctx =
+        if(!AudioContext) return null;
+
+        audioContext =
             new AudioContext();
+    }
+
+    if(audioContext.state === "suspended"){
+        audioContext.resume();
+    }
+
+    return audioContext;
+}
+
+
+/* Soft background music */
+
+function startBackgroundMusic(){
+
+    if(backgroundStarted) return;
+
+    const ctx =
+        getAudioContext();
+
+    if(!ctx) return;
+
+    backgroundStarted = true;
+
+    const notes =
+        [261.63, 329.63, 392.00, 329.63];
+
+    let index = 0;
+
+    function playBackgroundNote(){
+
+        if(!backgroundStarted) return;
 
         const oscillator =
             ctx.createOscillator();
@@ -672,86 +702,166 @@ function playSound(type){
         const gain =
             ctx.createGain();
 
-        oscillator.connect(gain);
+        oscillator.type = "sine";
 
+        oscillator.frequency.value =
+            notes[index];
+
+        oscillator.connect(gain);
         gain.connect(ctx.destination);
 
+        const now =
+            ctx.currentTime;
 
-        if(type === "jump"){
+        /* VERY QUIET background */
 
-            oscillator.type =
-                "triangle";
+        gain.gain.setValueAtTime(
+            0.018,
+            now
+        );
 
-            oscillator.frequency.setValueAtTime(
-                250,
-                ctx.currentTime
+        gain.gain.exponentialRampToValueAtTime(
+            0.001,
+            now + 0.7
+        );
+
+        oscillator.start(now);
+
+        oscillator.stop(
+            now + 0.75
+        );
+
+        index =
+            (index + 1) % notes.length;
+
+        backgroundTimer =
+            setTimeout(
+                playBackgroundNote,
+                900
             );
+    }
 
-            oscillator.frequency.exponentialRampToValueAtTime(
-                450,
-                ctx.currentTime + 0.15
-            );
+    playBackgroundNote();
+}
 
-            gain.gain.setValueAtTime(
-                0.16,
-                ctx.currentTime
-            );
 
-            gain.gain.exponentialRampToValueAtTime(
-                0.001,
-                ctx.currentTime + 0.18
-            );
+/* Frog jump sound */
 
-            oscillator.start();
+function playJumpSound(){
 
-            oscillator.stop(
-                ctx.currentTime + 0.18
-            );
+    const ctx =
+        getAudioContext();
 
-        }
+    if(!ctx) return;
 
-        else{
+    const oscillator =
+        ctx.createOscillator();
+
+    const gain =
+        ctx.createGain();
+
+    oscillator.type =
+        "triangle";
+
+    oscillator.connect(gain);
+    gain.connect(ctx.destination);
+
+    const now =
+        ctx.currentTime;
+
+    oscillator.frequency.setValueAtTime(
+        180,
+        now
+    );
+
+    oscillator.frequency.exponentialRampToValueAtTime(
+        520,
+        now + 0.18
+    );
+
+    gain.gain.setValueAtTime(
+        0.32,
+        now
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        now + 0.28
+    );
+
+    oscillator.start(now);
+
+    oscillator.stop(
+        now + 0.3
+    );
+}
+
+
+/* Happy check answer sound */
+
+function playCelebrationSound(){
+
+    const ctx =
+        getAudioContext();
+
+    if(!ctx) return;
+
+    const notes =
+        [
+            523.25,
+            659.25,
+            783.99,
+            1046.50
+        ];
+
+    notes.forEach(
+        (frequency, index) => {
+
+            const oscillator =
+                ctx.createOscillator();
+
+            const gain =
+                ctx.createGain();
 
             oscillator.type =
                 "sine";
 
-            oscillator.frequency.setValueAtTime(
-                523,
-                ctx.currentTime
-            );
+            oscillator.frequency.value =
+                frequency;
+
+            oscillator.connect(gain);
+            gain.connect(ctx.destination);
+
+            const startTime =
+                ctx.currentTime +
+                index * 0.13;
 
             gain.gain.setValueAtTime(
-                0.12,
-                ctx.currentTime
+                0.32,
+                startTime
             );
 
             gain.gain.exponentialRampToValueAtTime(
                 0.001,
-                ctx.currentTime + 0.6
+                startTime + 0.45
             );
 
-            oscillator.start();
+            oscillator.start(
+                startTime
+            );
 
             oscillator.stop(
-                ctx.currentTime + 0.6
+                startTime + 0.5
             );
 
         }
-
-    }
-
-    catch(e){
-
-        /* Sound is optional */
-
-    }
-
+    );
 }
 
 
-/* ============================= */
-/* DRAW ONE ARROW */
-/* ============================= */
+/* =====================================================
+   DRAW ONE JUMP
+===================================================== */
 
 function drawJumpArrow(from, to){
 
@@ -774,7 +884,7 @@ function drawJumpArrow(from, to){
         78;
 
     const topY =
-        25;
+        22;
 
     const color =
         direction === 1
@@ -782,7 +892,7 @@ function drawJumpArrow(from, to){
         : "#ff9f43";
 
 
-    /* ARC */
+    /* Arc */
 
     const path =
         document.createElementNS(
@@ -813,10 +923,10 @@ function drawJumpArrow(from, to){
     jumpSvg.appendChild(path);
 
 
-    /* ARROW HEAD */
+    /* Arrow head */
 
     const arrowSize =
-        8;
+        9;
 
     const arrow =
         document.createElementNS(
@@ -834,9 +944,7 @@ function drawJumpArrow(from, to){
              ${endX-arrowSize},${baseY-arrowSize}
              ${endX-arrowSize},${baseY+arrowSize}`;
 
-    }
-
-    else{
+    }else{
 
         points =
             `${endX},${baseY}
@@ -844,7 +952,6 @@ function drawJumpArrow(from, to){
              ${endX+arrowSize},${baseY+arrowSize}`;
 
     }
-
 
     arrow.setAttribute(
         "points",
@@ -862,45 +969,45 @@ function drawJumpArrow(from, to){
     );
 
     jumpSvg.appendChild(arrow);
-
 }
 
 
-/* ============================= */
-/* MAKE ONE JUMP ONLY */
-/* ============================= */
+/* =====================================================
+   ONE JUMP ONLY
+===================================================== */
 
 function makeOneJump(){
 
-    const requiredSteps =
-        Number(stepsInput.value);
+    /* Start soft background after first interaction */
+
+    startBackgroundMusic();
 
 
-    const safeSteps =
+    /* Read number of required steps */
+
+    totalSteps =
         Math.max(
             1,
             Math.min(
                 10,
-                requiredSteps || 1
+                Number(stepsInput.value) || 1
             )
         );
 
-
     stepsInput.value =
-        safeSteps;
+        totalSteps;
 
 
-    /* Already finished */
+    /* Don't allow more jumps than requested */
 
-    if(jumpsMade >= safeSteps){
+    if(completedSteps >= totalSteps){
 
         feedback.textContent =
-            "🎉 We already made " +
-            safeSteps +
-            " jumps!";
+            "🐸 You finished all " +
+            totalSteps +
+            " jumps! Now check your answer! ✨";
 
         return;
-
     }
 
 
@@ -914,7 +1021,7 @@ function makeOneJump(){
         currentPos + direction;
 
 
-    /* Check number line boundary */
+    /* Check number line limits */
 
     if(
         nextPos < minVal ||
@@ -922,14 +1029,13 @@ function makeOneJump(){
     ){
 
         feedback.textContent =
-            "⚠️ We cannot jump outside the number line!";
+            "⚠️ The frog cannot jump outside the number line!";
 
         return;
-
     }
 
 
-    /* One jump */
+    /* Draw ONLY ONE arrow */
 
     drawJumpArrow(
         currentPos,
@@ -937,14 +1043,18 @@ function makeOneJump(){
     );
 
 
-    playSound("jump");
+    /* Jump sound */
 
+    playJumpSound();
+
+
+    /* Move ONLY ONE number */
 
     currentPos =
         nextPos;
 
 
-    jumpsMade++;
+    completedSteps++;
 
 
     positionFrog();
@@ -952,81 +1062,95 @@ function makeOneJump(){
 
     /* Feedback */
 
-    if(jumpsMade < safeSteps){
+    if(completedSteps < totalSteps){
+
+        const remaining =
+            totalSteps - completedSteps;
 
         feedback.textContent =
-            "🐸 Jump " +
-            jumpsMade +
-            " of " +
-            safeSteps +
-            "! Keep counting!";
+            "🐸 Great! " +
+            completedSteps +
+            " jump done! " +
+            remaining +
+            " more to go!";
 
-    }
-
-    else{
+    }else{
 
         feedback.textContent =
-            "🎉 We made " +
-            safeSteps +
+            "🎉 You completed " +
+            totalSteps +
             " jumps! " +
-            "Where did we land?";
+            "Now check your answer! ✅";
 
+        jumpBtn.disabled = true;
     }
-
 }
 
 
-/* ============================= */
-/* CHECK ANSWER */
-/* ============================= */
+/* =====================================================
+   CHECK ANSWER
+===================================================== */
 
 function checkAnswer(){
 
-    const requiredSteps =
-        Number(stepsInput.value);
+    startBackgroundMusic();
 
 
-    const safeSteps =
-        Math.max(
-            1,
-            Math.min(
-                10,
-                requiredSteps || 1
-            )
-        );
+    /* Make sure all jumps are completed */
 
+    if(completedSteps < totalSteps){
 
-    if(jumpsMade < safeSteps){
+        const remaining =
+            totalSteps - completedSteps;
 
         feedback.textContent =
-            "🐸 We need " +
-            (safeSteps - jumpsMade) +
-            " more jump" +
-            ((safeSteps - jumpsMade) === 1 ? "" : "s") +
-            "!";
+            "🐸 Keep going! You still have " +
+            remaining +
+            " jump" +
+            (remaining > 1 ? "s" : "") +
+            " to make.";
 
         return;
-
     }
 
 
-    playSound("cheer");
+    /* Calculate correct answer */
+
+    const direction =
+        directionSelect.value === "right"
+        ? 1
+        : -1;
+
+    const correctAnswer =
+        startPos +
+        direction * totalSteps;
 
 
-    feedback.textContent =
-        "🎉 Great job! The answer is " +
-        currentPos +
-        "!";
+    /* Make sure frog reached correct answer */
 
+    if(currentPos === correctAnswer){
 
-    celebrate();
+        playCelebrationSound();
 
+        feedback.innerHTML =
+            "🎉🎉 GREAT JOB! 🎉🎉<br>" +
+            "The answer is <strong>" +
+            correctAnswer +
+            "</strong>! ⭐";
+
+        celebrate();
+
+    }else{
+
+        feedback.textContent =
+            "🤔 Let's look at the jumps again!";
+    }
 }
 
 
-/* ============================= */
-/* CELEBRATION */
-/* ============================= */
+/* =====================================================
+   CELEBRATION
+===================================================== */
 
 function celebrate(){
 
@@ -1035,26 +1159,27 @@ function celebrate(){
             "celebrationZone"
         );
 
-    zone.innerHTML =
-        "";
+    zone.innerHTML = "";
 
     zone.style.display =
         "block";
 
 
-    const items = [
-        "⭐",
-        "✨",
-        "🌟",
-        "🎈",
-        "🎉",
-        "🐸"
-    ];
+    const items =
+        [
+            "⭐",
+            "✨",
+            "🌟",
+            "🎈",
+            "🎉",
+            "🐸",
+            "🏆"
+        ];
 
 
     for(
         let i = 0;
-        i < 25;
+        i < 30;
         i++
     ){
 
@@ -1079,31 +1204,27 @@ function celebrate(){
 
 
         star.style.animationDelay =
-            Math.random() * 0.4 +
+            Math.random() * 0.5 +
             "s";
 
 
         zone.appendChild(star);
-
     }
 
 
     setTimeout(
         () => {
-
             zone.style.display =
                 "none";
-
         },
-        2000
+        2200
     );
-
 }
 
 
-/* ============================= */
-/* WHEN START CHANGES */
-/* ============================= */
+/* =====================================================
+   CONTROL CHANGES
+===================================================== */
 
 startSelect.onchange =
 function(){
@@ -1113,70 +1234,89 @@ function(){
 };
 
 
-/* ============================= */
-/* WHEN DIRECTION CHANGES */
-/* ============================= */
-
 directionSelect.onchange =
 function(){
 
-    resetGame();
+    if(completedSteps > 0){
+
+        currentPos =
+            startPos;
+
+        completedSteps = 0;
+
+        jumpSvg.innerHTML = "";
+
+        jumpBtn.disabled = false;
+
+        feedback.textContent =
+            "🐸 Direction changed. Ready to jump!";
+
+        positionFrog();
+    }
 
 };
 
-
-/* ============================= */
-/* WHEN STEPS CHANGES */
-/* ============================= */
 
 stepsInput.onchange =
 function(){
 
+    if(completedSteps > 0){
+
+        currentPos =
+            startPos;
+
+        completedSteps = 0;
+
+        jumpSvg.innerHTML = "";
+
+        jumpBtn.disabled = false;
+    }
+
+
     let value =
         Number(stepsInput.value);
-
 
     if(value < 1)
         value = 1;
 
-
     if(value > 10)
         value = 10;
-
 
     stepsInput.value =
         value;
 
+    totalSteps =
+        value;
 
-    resetGame();
+    feedback.textContent = "";
 
+    positionFrog();
 };
 
 
-/* ============================= */
-/* RESIZE */
-/* ============================= */
+/* =====================================================
+   RESIZE
+===================================================== */
 
 window.addEventListener(
     "resize",
     () => {
 
-        if(jumpSvg){
+        if(completedSteps === 0){
 
-            jumpSvg.innerHTML =
-                "";
-
-            positionFrog();
+            jumpSvg.innerHTML = "";
 
         }
+
+        positionFrog();
 
     }
 );
 
 
-/* ============================= */
-/* START */
-/* ============================= */
+/* =====================================================
+   START GAME
+===================================================== */
 
 initBoard();
 
